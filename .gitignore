@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+env/
+.env
+venv/
+.venv/
+
+# Node
+node_modules/
+frontend/node_modules/
+dist/
+
+# VSCode
+/.vscode/
+
+# Database / runtime
+chroma_db/
+*.sqlite3
+
+# Mac
+.DS_Store
+
+# Logs
+*.log
