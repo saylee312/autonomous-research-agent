@@ -13,6 +13,7 @@ from backend.rag.processors.chunk_builder import build_chunks
 from backend.rag.ingestion import ingest_chunks
 from backend.database.document_repository import DocumentRepository
 from backend.rag.processors.image_understanding import understand_image
+from backend.core.logger import logger
 
 
 router = APIRouter()
@@ -76,7 +77,7 @@ async def upload_document(file: UploadFile = File(...)):
                 parsed["image_descriptions"].append(description)
 
             except Exception as e:
-                print("Image processing failed:", str(e))
+                logger.error(f"Image processing failed for {image_path}: {str(e)}")
 
         chunks = build_chunks(
             document_id=document_id,

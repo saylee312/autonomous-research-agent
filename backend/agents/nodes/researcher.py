@@ -1,28 +1,22 @@
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-from backend.tools.tavily_tool import (
-    search_tavily
-)
-
-from backend.tools.wikipedia_tool import (
-    search_wikipedia
-)
-
-from backend.tools.arxiv_tool import (
-    search_arxiv
-)
-
-from backend.tools.duckduckgo_tool import (
-    search_duckduckgo
-)
+from backend.tools.tavily_tool import search_tavily
+from backend.tools.wikipedia_tool import search_wikipedia
+from backend.tools.arxiv_tool import search_arxiv
+from backend.tools.duckduckgo_tool import search_duckduckgo
+from backend.core.logger import logger
 
 
 def researcher_node(state):
-
+    """Execute research tasks in parallel using multiple search tools.
+    
+    Searches for information using Tavily, Wikipedia, ArXiv, and DuckDuckGo
+    for each task in the research plan.
+    """
     findings = []
     
-    print(f"\n[TIMING] Researcher: Starting research on {len(state['plan'])} tasks...")
+    logger.info(f"Starting research on {len(state['plan'])} tasks")
     research_start = time.time()
 
     # Process tasks in parallel
@@ -55,7 +49,7 @@ def researcher_node(state):
                 findings.append(f"[{tool_name} Error: {str(e)}]")
 
     research_time = time.time() - research_start
-    print(f"[TIMING] All research completed in {research_time:.2f}s ({len(findings)} results)")
+    logger.info(f"Research completed in {research_time:.2f}s with {len(findings)} results")
     
     state["research_results"] = findings
 

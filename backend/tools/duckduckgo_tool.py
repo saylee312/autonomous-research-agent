@@ -1,5 +1,6 @@
 from ddgs import DDGS
 import time
+from backend.core.logger import logger
 
 
 def search_duckduckgo(query: str, max_results: int = 3) -> str:
@@ -31,10 +32,10 @@ def search_duckduckgo(query: str, max_results: int = 3) -> str:
         )
         
         elapsed = time.time() - start
-        print(f"[PERF] DuckDuckGo search took {elapsed:.2f}s ({len(results) if results else 0} results)")
+        logger.debug(f"DuckDuckGo search completed in {elapsed:.2f}s ({len(results) if results else 0} results)")
         
         return str(results) if results else ""
     
     except Exception as e:
-        print(f"[ERROR] DuckDuckGo search failed: {str(e)}")
+        logger.error(f"DuckDuckGo search failed: {str(e)}")
         return f"[DuckDuckGo Error: {str(e)}]"

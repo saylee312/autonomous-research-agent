@@ -3,6 +3,7 @@ import uuid
 from datetime import datetime, UTC
 
 from backend.database.mongo import db
+from backend.core.logger import logger
 
 
 def serialize_doc(doc):
@@ -52,7 +53,7 @@ class ReportRepository:
             report
         )
         
-        print(f"[DEBUG] Saved report: ID={report_id}, title={title}, content_len={len(content) if content else 0}")
+        logger.debug(f"Report saved: ID={report_id}, title={title}, content_len={len(content) if content else 0}")
 
         return report
 

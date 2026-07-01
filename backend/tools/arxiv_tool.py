@@ -1,5 +1,6 @@
 import arxiv
 import time
+from backend.core.logger import logger
 from typing import List, Dict
 
 
@@ -60,7 +61,7 @@ def search_arxiv(query: str, max_results: int = 3) -> str:
                 )
             
             elapsed = time.time() - start
-            print(f"[PERF] ArXiv search took {elapsed:.2f}s ({len(results)} papers)")
+            logger.debug(f"ArXiv search completed in {elapsed:.2f}s ({len(results)} papers)")
 
             return str(results)
         
@@ -70,15 +71,15 @@ def search_arxiv(query: str, max_results: int = 3) -> str:
             # Rate limit error (429)
             if "429" in error_msg or "rate" in error_msg.lower():
                 if attempt < max_retries - 1:
-                    wait_time = retry_delay * (2 ** attempt)  # Exponential backoff
-                    print(f"[WARN] ArXiv rate limited. Retrying in {wait_time}s... (attempt {attempt + 1}/{max_retries})")
+                    wait_time = retry_delay * (2 ** attempt)
+                    logger.warning(f"ArXiv rate limited. Retrying in {wait_time}s (attempt {attempt + 1}/{max_retries})")
                     time.sleep(wait_time)
                     continue
                 else:
                     return f"[ArXiv Error: Rate limited after {max_retries} retries. Please try again later.]"
             
             # Other errors
-            print(f"[ERROR] ArXiv search failed: {error_msg}")
+            logger.error(f"ArXiv search failed: {error_msg}")
             return f"[ArXiv Error: {error_msg}]"
     
     return "[]"

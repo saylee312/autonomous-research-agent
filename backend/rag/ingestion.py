@@ -2,11 +2,19 @@ import uuid
 
 from backend.rag.embeddings import embeddings
 from backend.rag.vector_store import collection
+from backend.core.logger import logger
 
 
 def ingest_chunks(chunks):
-
-    print(f"\nReceived chunks: {len(chunks)}")
+    """Ingest and embed text chunks into vector store.
+    
+    Args:
+        chunks: List of text chunks with metadata
+    
+    Returns:
+        List of chunk IDs in vector store
+    """
+    logger.debug(f"Ingesting {len(chunks)} chunks")
 
     if not chunks:
         raise ValueError(
@@ -42,15 +50,10 @@ def ingest_chunks(chunks):
             )
         )
 
-    print(
-        f"Valid texts: {len(texts)}"
-    )
+    logger.debug(f"Valid texts: {len(texts)}")
 
     if texts:
-        print(
-            "First text preview:",
-            texts[0][:300]
-        )
+        logger.debug(f"First text preview (300 chars): {texts[0][:300]}")
 
     if not texts:
         raise ValueError(
@@ -65,16 +68,10 @@ def ingest_chunks(chunks):
 
     except Exception as e:
 
-        print(
-            "Embedding error:",
-            str(e)
-        )
-
+        logger.error(f"Embedding error: {str(e)}")
         raise
 
-    print(
-        f"Embeddings generated: {len(vectors)}"
-    )
+    logger.debug(f"Embeddings generated: {len(vectors)}")
 
     if not vectors:
         raise ValueError(
@@ -88,8 +85,6 @@ def ingest_chunks(chunks):
         metadatas=metadatas
     )
 
-    print(
-        f"Inserted {len(ids)} chunks into Chroma"
-    )
+    logger.info(f"Inserted {len(ids)} chunks into vector store")
 
     return len(ids)

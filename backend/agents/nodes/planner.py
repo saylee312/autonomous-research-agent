@@ -2,15 +2,19 @@ import json
 import time
 
 from backend.core.llm import get_llm
+from backend.core.logger import logger
 
 llm = get_llm()
 
 
 def planner_node(state):
-
+    """Break down research query into specific tasks.
+    
+    Uses LLM to create 3-5 focused research subtasks from the main query.
+    """
     query = state["query"]
     
-    print(f"\n[TIMING] Planner: Breaking down query into tasks...")
+    logger.info(f"Planning research tasks for query: {query}")
     start = time.time()
 
     prompt = f"""
@@ -40,7 +44,7 @@ Topic:
         ]
     
     elapsed = time.time() - start
-    print(f"[TIMING] Planner created {len(plan)} tasks in {elapsed:.2f}s: {plan}")
+    logger.info(f"Created {len(plan)} tasks in {elapsed:.2f}s")
 
     state["plan"] = plan
 

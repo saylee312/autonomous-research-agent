@@ -40,9 +40,7 @@ def load_pdf(file_path):
 
     except Exception as e:
 
-        print(
-            f"PDF text extraction error: {e}"
-        )
+        logger.error(f"PDF text extraction error: {e}")
 
     # ---------------------
     # TABLE EXTRACTION
@@ -72,9 +70,7 @@ def load_pdf(file_path):
 
     except Exception as e:
 
-        print(
-            f"PDF table extraction error: {e}"
-        )
+        logger.error(f"PDF table extraction error: {e}")
 
     # ---------------------
     # IMAGE EXTRACTION
@@ -139,17 +135,13 @@ def load_pdf(file_path):
 
                 except Exception as image_error:
 
-                    print(
-                        f"Image extraction error: {image_error}"
-                    )
+                    logger.error(f"Image extraction error: {image_error}")
 
         pdf.close()
 
     except Exception as e:
 
-        print(
-            f"PDF image extraction error: {e}"
-        )
+        logger.error(f"PDF image extraction error: {e}")
 
     # ---------------------
     # OCR FALLBACK
@@ -160,9 +152,7 @@ def load_pdf(file_path):
         and len(result["tables"]) == 0
     ):
 
-        print(
-            "Running OCR fallback..."
-        )
+        logger.debug("Running OCR fallback for scanned PDF")
 
         try:
 
@@ -181,21 +171,12 @@ def load_pdf(file_path):
                     scanned_text
                 )
 
-                print(
-                    "OCR fallback successful"
-                )
+                logger.debug("OCR fallback successful")
 
         except Exception as e:
 
-            print(
-                f"OCR fallback failed: {e}"
-            )
+            logger.error(f"OCR fallback failed: {e}")
 
-    print(
-        f"PDF Parsed -> "
-        f"Text={len(result['text'])}, "
-        f"Tables={len(result['tables'])}, "
-        f"Images={len(result['images'])}"
-    )
+    logger.info(f"PDF parsed: text={len(result['text'])}, tables={len(result['tables'])}, images={len(result['images'])}")
 
     return result

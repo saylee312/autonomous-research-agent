@@ -1,20 +1,11 @@
 import time
-
-from fastapi import (
-    APIRouter,
-    HTTPException
-)
-
-from fastapi.responses import (
-    FileResponse
-)
-
+from fastapi import APIRouter, HTTPException
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
 from backend.agents.graph import build_research_graph
-from backend.services.report_service import (
-    ReportService
-)
+from backend.services.report_service import ReportService
+from backend.core.logger import logger
 
 
 class GenerateReportRequest(BaseModel):
@@ -44,9 +35,8 @@ async def generate_report(payload: GenerateReportRequest):
             detail="Query cannot be empty"
         )
 
-    # 1. Run LangGraph with timing
     try:
-        print(f"\n[TIMING] Starting report generation for: {query}")
+        logger.info(f"Starting report generation for: {query}")
         start_time = time.time()
         
         result = graph.invoke({
@@ -54,7 +44,7 @@ async def generate_report(payload: GenerateReportRequest):
         })
         
         graph_time = time.time() - start_time
-        print(f"[TIMING] Graph execution completed in {graph_time:.2f}s")
+        logger.info(f"Graph execution completed in {graph_time:.2f}s")
         
     except Exception as exc:
         error_msg = str(exc)
@@ -71,7 +61,6 @@ async def generate_report(payload: GenerateReportRequest):
             detail=f"Report generation failed: {error_msg}"
         )
 
-    # 2. Save report with timing
     try:
         save_start = time.time()
         
@@ -84,11 +73,9 @@ async def generate_report(payload: GenerateReportRequest):
         )
         
         save_time = time.time() - save_start
-        print(f"[TIMING] Report saved in {save_time:.2f}s")
-        print(f"[DEBUG] Report ID: {report['_id']}")
-        print(f"[DEBUG] Report Title: {report['title']}")
-        print(f"[DEBUG] Content length: {len(report_content)}")
-        print(f"[TIMING] Total time: {graph_time + save_time:.2f}s\n")
+        total_time = graph_time + save_time
+        logger.info(f"Report saved in {save_time:.2f}s (ID: {report['_id']}, Title: {report['title']}, Content: {len(report_content)} chars)")
+        logger.info(f"Total generation time: {total_time:.2f}s")
         
     except Exception as exc:
         raise HTTPException(

@@ -25,3 +25,9 @@ chroma_db/
 
 # Logs
 *.log
+
+# Generated reports
+backend/storage/reports/*.pdf
+
+# Local development folders
+frontend/.lovable/
