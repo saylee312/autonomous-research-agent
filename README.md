@@ -146,6 +146,8 @@ The agent maintains reasoning state across steps and supports multi-modal conten
 - **Agent orchestration**: LangGraph
 - **Database**: MongoDB
 - **Vector DB**: Chroma
+- **Embeddings**: HuggingFaceEmbeddings (BAAI/bge-large-en-v1.5)
+- **LLM provider**: Groq via `langchain-groq`
 - **Document processing**:
   - PDF, DOCX, PPTX, XLSX, CSV, image loaders
   - OCR and scanned PDF handling
