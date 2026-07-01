@@ -32,7 +32,6 @@ export const api = {
   },
 };
 
-// ---- Types ----
 export interface ChatSession {
   _id: string;
   created_at?: string;

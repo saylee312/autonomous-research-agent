@@ -20,10 +20,7 @@ app = FastAPI(
     description="AI-powered research platform with multi-source integration",
 )
 
-# ============================================================================
 # CORS
-# ============================================================================
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -32,19 +29,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ============================================================================
-# API Routes
-# ============================================================================
-
+# API routes
 app.include_router(chat_router, prefix="/api/chat", tags=["Chat"])
 app.include_router(rag_router, prefix="/api/rag", tags=["RAG"])
 app.include_router(reports_router, prefix="/api/reports", tags=["Reports"])
 app.include_router(sessions_router, prefix="/api/sessions", tags=["Sessions"])
 
-# ============================================================================
-# Health Check
-# ============================================================================
-
+# Health check
 @app.get("/health", tags=["Health"])
 async def health():
     return {
@@ -52,9 +43,7 @@ async def health():
         "message": "Research Agent Running",
     }
 
-# ============================================================================
-# Root Endpoint
-# ============================================================================
+# Root endpoint
 
 @app.get("/", include_in_schema=False)
 async def root():

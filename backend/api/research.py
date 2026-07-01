@@ -16,12 +16,8 @@ async def generate_report(payload: dict):
 
     query = payload["query"]
 
-    # 1. Run LangGraph
-    result = graph.invoke({
-        "query": query
-    })
+    result = graph.invoke({"query": query})
 
-    # 2. Save report
     report = report_service.save_report(
         title=query,
         content=result["report"],

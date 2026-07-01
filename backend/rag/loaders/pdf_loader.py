@@ -16,10 +16,7 @@ def load_pdf(file_path):
         "images": []
     }
 
-    # ---------------------
-    # TEXT EXTRACTION
-    # ---------------------
-
+    # Text extraction
     try:
 
         pdf = fitz.open(
@@ -39,13 +36,9 @@ def load_pdf(file_path):
         pdf.close()
 
     except Exception as e:
-
         logger.error(f"PDF text extraction error: {e}")
 
-    # ---------------------
-    # TABLE EXTRACTION
-    # ---------------------
-
+    # Table extraction
     try:
 
         with pdfplumber.open(
@@ -69,13 +62,9 @@ def load_pdf(file_path):
                         )
 
     except Exception as e:
-
         logger.error(f"PDF table extraction error: {e}")
 
-    # ---------------------
-    # IMAGE EXTRACTION
-    # ---------------------
-
+    # Image extraction
     try:
 
         pdf = fitz.open(
@@ -140,13 +129,9 @@ def load_pdf(file_path):
         pdf.close()
 
     except Exception as e:
-
         logger.error(f"PDF image extraction error: {e}")
 
-    # ---------------------
-    # OCR FALLBACK
-    # ---------------------
-
+    # OCR fallback
     if (
         len(result["text"]) == 0
         and len(result["tables"]) == 0

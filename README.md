@@ -21,8 +21,6 @@ Built for enterprise-style research, this system uses a planner-executor LangGra
 - [Architecture](#architecture)
 - [Technologies](#technologies)
 - [Getting Started](#getting-started)
-- [Screenshots](#screenshots)
-- [Future Improvements](#future-improvements)
 
 ---
 
@@ -201,7 +199,7 @@ pip install -r requirements.txt
 
 3. Create a `.env` file with your API keys:
 ```env
-OPENAI_API_KEY=your_openai_key
+GROQ_API_KEY=your_groq_api_key_here
 MODEL_NAME=gpt-4-turbo
 TAVILY_API_KEY=your_tavily_key
 MONGODB_URI=mongodb://localhost:27017
@@ -219,17 +217,6 @@ cd frontend
 npm install
 npm run dev
 ```
-
----
-
-## Screenshots
-
-> Add screenshots for:
-> - Research report generation
-> - Document upload and indexing
-> - RAG query results with source citations
-> - Chat session interaction
-> - Report downloads
 
 ---
 
@@ -294,7 +281,7 @@ Some Python packages (PyMuPDF, Tesseract, EasyOCR) require system-level dependen
 Ensure MongoDB is running and accessible at the configured URI.
 
 ### API Key Configuration
-All API keys (OpenAI, Tavily, etc.) must be set in environment variables before starting the application.
+All API keys (Groq, Tavily, etc.) must be set in environment variables before starting the application.
 
 ---
 

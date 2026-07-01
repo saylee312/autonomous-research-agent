@@ -22,24 +22,18 @@ service = RagService()
 repo = DocumentRepository()
 
 
-# -------------------------
-# REQUEST MODEL (UPDATED)
-# -------------------------
 class QueryRequest(BaseModel):
     query: str
-    document_id: str | None = None   # 🔥 IMPORTANT FIX
+    document_id: str | None = None
 
 
-# -------------------------
-# QUERY DOCUMENT (FIXED)
-# -------------------------
 @router.post("/query")
 async def query_rag(payload: QueryRequest):
 
     try:
         result = service.query_document(
             payload.query,
-            payload.document_id   # 🔥 PASS DOCUMENT CONTEXT
+            payload.document_id   
         )
 
         return result
@@ -48,9 +42,6 @@ async def query_rag(payload: QueryRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-# -------------------------
-# UPLOAD DOCUMENT (UNCHANGED LOGIC)
-# -------------------------
 @router.post("/upload")
 async def upload_document(file: UploadFile = File(...)):
 
@@ -71,11 +62,9 @@ async def upload_document(file: UploadFile = File(...)):
         parsed["image_descriptions"] = []
 
         for image_path in parsed.get("images", []):
-
             try:
                 description = understand_image(image_path)
                 parsed["image_descriptions"].append(description)
-
             except Exception as e:
                 logger.error(f"Image processing failed for {image_path}: {str(e)}")
 
@@ -105,20 +94,12 @@ async def upload_document(file: UploadFile = File(...)):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-# -------------------------
-# LIST DOCUMENTS
-# -------------------------
 @router.get("/documents")
 async def list_documents():
     return repo.list_documents()
 
 
-# -------------------------
-# DELETE DOCUMENT
-# -------------------------
 @router.delete("/documents/{document_id}")
 async def delete_document(document_id: str):
-
     repo.delete_document(document_id)
-
     return {"message": "deleted"}
