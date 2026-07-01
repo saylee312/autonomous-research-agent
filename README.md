@@ -233,25 +233,6 @@ npm run dev
 
 ---
 
-## Future Improvements
-
-### 🚀 Planned Enhancements
-- Fine-grained search filtering by source, date, and relevance
-- Collaborative research workspaces
-- Custom tool/plugin integration for specialized workflows
-- Real-time shared research sessions
-- Analytics dashboard for research insights
-- Deployment templates for cloud and containerized environments
-
-### 🔧 Technical Improvements
-- More advanced multi-modal RAG models and retrieval strategies
-- Video and audio content processing
-- Multi-language support
-- Enhanced monitoring, logging, and observability
-- Cost optimization via caching and API request batching
-
----
-
 ## Architecture Notes
 
 Project structure:
@@ -282,7 +263,7 @@ autonomous-research-agent/
 Create a `.env` file in the project root:
 
 ```env
-OPENAI_API_KEY=your_openai_key
+GROQ_API_KEY=your_groq_api_key_here
 MODEL_NAME=gpt-4-turbo
 TAVILY_API_KEY=your_tavily_key
 MONGODB_URI=mongodb://localhost:27017
